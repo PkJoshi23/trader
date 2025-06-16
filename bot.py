@@ -1,61 +1,9 @@
 import time
-from alpaca.trading.client import TradingClient
-from alpaca.trading.models import Order
-
-class AlpacaAPI:
-    def __init__(self):
-        self.trading_client = TradingClient(api_key="YOUR_API_KEY", secret_key="YOUR_SECRET_KEY")
-
-    def get_account(self):
-        return self.trading_client.get_account()
-
-    def get_positions(self):
-        return self.trading_client.get_positions()
-
-    def get_penny_stocks(self, max_price, min_avg_volume=500000):
-        # Implement the logic to fetch penny stocks based on the max_price and min_avg_volume
-        # This is a placeholder and should be replaced with the actual implementation
-        return []
-
-    def get_historical_data(self, symbol, timeframe, limit):
-        # Implement the logic to fetch historical data
-        # This is a placeholder and should be replaced with the actual implementation
-        return pd.DataFrame()
-
-    def submit_order(self, symbol, qty, side, type, stop_loss, take_profit):
-        # Implement the logic to submit an order
-        # This is a placeholder and should be replaced with the actual implementation
-        pass
-
-def check_daily_loss(account, start_equity):
-    # Implement the logic to check if the daily loss cap is reached
-    # This is a placeholder and should be replaced with the actual implementation
-    return True
-
-def check_max_positions(open_positions):
-    # Implement the logic to check if the max concurrent positions are reached
-    # This is a placeholder and should be replaced with the actual implementation
-    return True
-
-def calculate_position_size(equity, atr, price):
-    # Implement the logic to calculate position size
-    # This is a placeholder and should be replaced with the actual implementation
-    return 0.0
-
-def calculate_stop_loss(price, atr):
-    # Implement the logic to calculate stop loss
-    # This is a placeholder and should be replaced with the actual implementation
-    return 0.0
-
-def calculate_take_profit(price, atr):
-    # Implement the logic to calculate take profit
-    # This is a placeholder and should be replaced with the actual implementation
-    return 0.0
-
-def generate_signals(df):
-    # Implement the logic to generate trading signals
-    # This is a placeholder and should be replaced with the actual implementation
-    return pd.DataFrame()
+import pandas as pd
+from alpaca_api import AlpacaAPI
+from strategy import generate_signals
+from risk import calculate_position_size, calculate_stop_loss, calculate_take_profit, check_max_positions, check_daily_loss
+from config import MAX_STOCK_PRICE
 
 def main():
     alpaca = AlpacaAPI()
