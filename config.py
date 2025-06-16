@@ -18,8 +18,8 @@ DAILY_MAX_LOSS_CAP = 0.05  # 5% of account balance
 TIMEFRAMES = ['1Min', '5Min']
 
 # Penny stock filter
-MAX_STOCK_PRICE = 5.0  # Only trade stocks below $5
-MIN_VOLUME_SPIKE = 2.0  # 2x average volume spike
+MAX_STOCK_PRICE = 50.0  # Only trade stocks below $5
+MIN_VOLUME_SPIKE = 0.8  # 2x average volume spike
 
 # Market session focus
 PRE_MARKET_START = '04:00'
