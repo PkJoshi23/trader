@@ -4,9 +4,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Alpaca API credentials
-ALPACA_API_KEY = os.getenv('PK40IVOOCNZ4O5376MKQ')
-ALPACA_SECRET_KEY = os.getenv('V5xQWiR3DN9ZfcR0pqzy0HeHeFRd9lwbkTMZYizB')
-ALPACA_BASE_URL = os.getenv('https://paper-api.alpaca.markets/v2', 'https://paper-api.alpaca.markets')
+ALPACA_API_KEY = os.getenv('APCA_API_KEY_ID') or os.getenv('ALPACA_API_KEY')
+ALPACA_SECRET_KEY = os.getenv('APCA_API_SECRET_KEY') or os.getenv('ALPACA_SECRET_KEY')
+ALPACA_BASE_URL = os.getenv('APCA_API_BASE_URL', 'https://paper-api.alpaca.markets')
 # Trading parameters
 MAX_RISK_PER_TRADE = 0.01  # 1% of total capital
 STOP_LOSS_ATR_MULTIPLIER = 1.5
