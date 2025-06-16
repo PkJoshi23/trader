@@ -24,7 +24,7 @@ def main():
             continue
 
         # Dynamically fetch penny stocks with liquidity filter
-        penny_stocks = alpaca.get_penny_stocks(MAX_STOCK_PRICE, min_avg_volume=500000)
+        penny_stocks = alpaca.get_penny_stocks(MAX_STOCK_PRICE, min_avg_volume=100000)
         print(f"Found {len(penny_stocks)} penny stocks to scan.")
         for symbol in penny_stocks:
             # Get latest 1-min data (last 50 bars)
