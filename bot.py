@@ -9,6 +9,7 @@ def main():
     alpaca = AlpacaAPI()
     account = alpaca.get_account()
     start_equity = float(account.equity)
+    bad_symbols = set()
 
     while True:
         # Check daily loss cap
@@ -27,9 +28,16 @@ def main():
         penny_stocks = alpaca.get_penny_stocks(MAX_STOCK_PRICE, min_avg_volume=100000)
         print(f"Found {len(penny_stocks)} penny stocks to scan.")
         for symbol in penny_stocks:
-            # Get latest 1-min data (last 50 bars)
-            df = alpaca.get_historical_data(symbol, '1Min', limit=50)
-            if df.empty or df['close'].iloc[-1] > MAX_STOCK_PRICE:
+            if symbol in bad_symbols:
+                continue
+            try:
+                # Get latest 1-min data (last 50 bars)
+                df = alpaca.get_historical_data(symbol, '1Min', limit=50)
+                if df.empty or df['close'].iloc[-1] > MAX_STOCK_PRICE:
+                    continue
+            except Exception as e:
+                print(f"[ERROR] Failed to fetch data for {symbol}: {e}")
+                bad_symbols.add(symbol)
                 continue
 
             signals = generate_signals(df)
@@ -46,14 +54,18 @@ def main():
                 stop_loss = calculate_stop_loss(price, atr)
                 take_profit = calculate_take_profit(price, atr)
                 print(f"Placing order: {symbol}, qty={position_size}, entry={price}, SL={stop_loss}, TP={take_profit}")
-                alpaca.submit_order(
-                    symbol=symbol,
-                    qty=position_size,
-                    side='buy',
-                    type='market',
-                    stop_loss=stop_loss,
-                    take_profit=take_profit
-                )
+                try:
+                    order = alpaca.submit_order(
+                        symbol=symbol,
+                        qty=position_size,
+                        side='buy',
+                        type='market',
+                        stop_loss=stop_loss,
+                        take_profit=take_profit
+                    )
+                    print(f"Order submitted: ID={order.id}, status={order.status}")
+                except Exception as e:
+                    print(f"Order failed for {symbol}: {e}")
                 time.sleep(2)  # Avoid API rate limits
 
         # Sleep before next scan
